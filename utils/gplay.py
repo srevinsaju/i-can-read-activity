@@ -120,7 +120,7 @@ class Gplay():
         self.bin.set_type_hint(Gdk.WindowTypeHint.NORMAL)
         self.bin.set_decorated(False)
 
-        self.bin.set_transient_for(lc._activity)
+        #self.bin.set_transient_for(lc._activity)
 
         self.bin.move(x, y)
         self.bin.resize(w, h)

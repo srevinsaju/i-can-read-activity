@@ -44,7 +44,7 @@ PATH = '/org/sugarlabs/ICanReadActivity'
 
 def _button_factory(icon_name, tooltip, callback, toolbar, cb_arg=None,
                     accelerator=None):
-    ''' Factory for making toolbar buttons '''
+    """ Factory for making toolbar buttons """
     my_button = ToolButton(icon_name)
     my_button.set_tooltip(tooltip)
     my_button.props.sensitive = True
@@ -63,7 +63,7 @@ def _button_factory(icon_name, tooltip, callback, toolbar, cb_arg=None,
 
 
 def _label_factory(label, toolbar):
-    ''' Factory for adding a label to a toolbar '''
+    """ Factory for adding a label to a toolbar """
     my_label = Gtk.Label(label)
     my_label.set_line_wrap(True)
     my_label.show()
@@ -75,7 +75,7 @@ def _label_factory(label, toolbar):
 
 
 def _combo_factory(options, tooltip, toolbar, callback, default=0):
-    ''' Combo box factory '''
+    """ Combo box factory """
     combo = ComboBox()
     if hasattr(combo, 'set_tooltip_text'):
         combo.set_tooltip_text(tooltip)
@@ -91,7 +91,7 @@ def _combo_factory(options, tooltip, toolbar, callback, default=0):
 
 
 def _separator_factory(toolbar, visible=True, expand=False):
-    ''' Factory for adding a separator to a toolbar '''
+    """ Factory for adding a separator to a toolbar """
     separator = Gtk.SeparatorToolItem()
     separator.props.draw = visible
     separator.set_expand(expand)
@@ -100,7 +100,7 @@ def _separator_factory(toolbar, visible=True, expand=False):
 
 
 def chooser(parent_window, filter, action):
-    ''' Choose an object from the datastore and take some action '''
+    """ Choose an object from the datastore and take some action """
     from sugar3.graphics.objectchooser import ObjectChooser
 
     _chooser = None
@@ -122,10 +122,10 @@ def chooser(parent_window, filter, action):
 
 
 class ICanReadActivity(activity.Activity):
-    ''' ICanRead Reading guide '''
+    """ ICanRead Reading guide """
 
     def __init__(self, handle):
-        ''' Initialize the toolbars and the reading board '''
+        """ Initialize the toolbars and the reading board """
         super(ICanReadActivity, self).__init__(handle)
         self.reading = False
         self.testing = False
@@ -192,7 +192,7 @@ class ICanReadActivity(activity.Activity):
 
 
     def _setup_toolbars(self):
-        ''' Setup the toolbars.. '''
+        """ Setup the toolbars.. """
         # no sharing
         self.max_participants = 1
         toolbox = ToolbarBox()
@@ -298,7 +298,7 @@ class ICanReadActivity(activity.Activity):
         record_toolbar.show()
 
     def _levels_cb(self, combobox=None):
-        ''' The combo box has changed. '''
+        """ The combo box has changed. """
         if hasattr(self, '_levels_combo'):
             i = self._levels_combo.get_active()
             if i != -1 and i != self._level:
@@ -319,36 +319,36 @@ class ICanReadActivity(activity.Activity):
         return
 
     def _lesson_cb(self, button=None):
-        ''' Chose a lesson file from the Sugar Journal. '''
+        """ Chose a lesson file from the Sugar Journal. """
         chooser(self, '', self._load_lesson)
         return
 
     def _create_lesson_cb(self, button=None):
-        ''' Chose a lesson file from the Sugar Journal. '''
+        """ Chose a lesson file from the Sugar Journal. """
         # Do something here:
         #    We need a place to add and edit text
         #    We need a place to select phonemes and assign colors
         return
 
     def _save_lesson_cb(self, button=None):
-        ''' Save a lesson file to the Sugar Journal. '''
+        """ Save a lesson file to the Sugar Journal. """
         if self._nothing_to_save:
             return
         # Do something here
         return
 
     def _sounds_cb(self, combobox=None):
-        ''' The combo box has changed. '''
+        """ The combo box has changed. """
         if hasattr(self, 'sounds_combo'):
             self._selected_sound = self.sounds_combo.get_active()
 
     def _list_cb(self, button=None):
-        ''' Letter list '''
+        """ Letter list """
         self._page.page_list()
         self.reading = False
 
     def _prev_page_cb(self, button=None):
-        ''' Start a new letter. '''
+        """ Start a new letter. """
         if self._page.page > 0:
             self._page.page -= 1
         if self._page.page == 0:
@@ -362,7 +362,7 @@ class ICanReadActivity(activity.Activity):
         self._test_button.set_tooltip(_('Self test'))
 
     def _next_page_cb(self, button=None):
-        ''' Start a new letter. '''
+        """ Start a new letter. """
         self._page.page += 1
         self._page.new_page()
         self.reading = False
@@ -374,7 +374,7 @@ class ICanReadActivity(activity.Activity):
         self._test_button.set_tooltip(_('Self test'))
 
     def _read_cb(self, button=None):
-        ''' Start a new page. '''
+        """ Start a new page. """
         if not self.reading:
             self.reading = True
             self.testing = False
@@ -393,7 +393,7 @@ class ICanReadActivity(activity.Activity):
             self._test_button.set_tooltip(_('Self test'))
 
     def _test_cb(self, button=None):
-        ''' Start a test. '''
+        """ Start a test. """
         if not self.testing:
             self.testing = True
             self._page.test()
@@ -406,14 +406,14 @@ class ICanReadActivity(activity.Activity):
             self._test_button.set_tooltip(_('Self test'))
 
     def write_file(self, file_path):
-        ''' Write status to the Journal '''
+        """ Write status to the Journal """
         if not hasattr(self, '_page'):
             return
         self.metadata['page'] = str(self._page.page)
         self.metadata['level'] = str(self._level)
 
     def _restore(self):
-        ''' Load up cards until we get to the page we stopped on. '''
+        """ Load up cards until we get to the page we stopped on. """
         if 'level' in self.metadata:
             level = int(self.metadata['level'])
             self._level = level
@@ -433,7 +433,7 @@ class ICanReadActivity(activity.Activity):
                 self._next_page_cb()
 
     def _get_levels(self, path):
-        ''' Look for level files in lessons directory. '''
+        """ Look for level files in lessons directory. """
         level_files = []
         if path is not None:
             candidates = os.listdir(path)
@@ -444,7 +444,7 @@ class ICanReadActivity(activity.Activity):
         return level_files
 
     def _get_sounds(self):
-        ''' Look for sounds list. '''
+        """ Look for sounds list. """
         if hasattr(self, '_page'):
             sound_list = self._page.get_phrase_list()
             for i in range(len(sound_list)):
@@ -455,7 +455,7 @@ class ICanReadActivity(activity.Activity):
             return([])
 
     def _reload_sound_combo(self):
-        ''' Rebuild sounds combobox. '''
+        """ Rebuild sounds combobox. """
         self.sounds_combo.remove_all()  # Remove old list.
         self._sounds = self._get_sounds()
         for i, sound in enumerate(self._sounds):
@@ -499,7 +499,7 @@ class ICanReadActivity(activity.Activity):
         return
 
     def _skip_this_file(self, filename):
-        ''' Ignore tmp files '''
+        """ Ignore tmp files """
         if filename[0] in '#.' or filename[-1] == '~':
             return True
         return False
