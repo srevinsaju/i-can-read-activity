@@ -309,11 +309,11 @@ class ICanReadActivity(activity.Activity):
                             self._lessons_path,
                             self._levels[self._level] + '.csv'))
                 except IndexError:
-                    print "couldn't restore level %s" % (self.metadata['level'])
+                    print("couldn't restore level %s" % (self.metadata['level']))
                     self._levels_combo.set_active(0)
             self._page.page = 0
             self._page.new_page()
-            print 'reloading sound combo box with level sounds'
+            print('reloading sound combo box with level sounds')
             self._reload_sound_combo()
             self._selected_sound = self.sounds_combo.get_active()
         return
@@ -423,7 +423,7 @@ class ICanReadActivity(activity.Activity):
                         self._lessons_path,
                         self._levels[self._level] + '.csv'))
             except IndexError:
-                print "couldn't restore level %s" % (self.metadata['level'])
+                print("couldn't restore level %s" % (self.metadata['level']))
                 self._levels_combo.set_active(0)
             self._page.page = 0
             self._page.new_page()
@@ -507,7 +507,7 @@ class ICanReadActivity(activity.Activity):
     def _load_lesson(self, dsobject):
         # TODO: load level and set combo to proper entry
         # save levels for latter restoring
-        print dsobject.metadata['title']
+        print(dsobject.metadata['title'])
         self._levels_combo.append_item(0, dsobject.metadata['title'], None)
         self._levels_combo.set_active(0)
         self._page.load_level(dsobject.file_path)

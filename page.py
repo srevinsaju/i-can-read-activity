@@ -38,7 +38,7 @@ KERN = {'i': 0.5, 'I': 0.7, 'l': 0.5, 't': 0.7, 'T': 0.9, 'r': 0.7, 'm': 1.4,
         'y':0.8, 'O': 1.1, 'K': 1.1, 'A': 1.1, 'Ñ': 1.1, 'N': 1.1, 'Á': 1.1,
         'Í': 0.7, 'Ó': 1.1, 'Ú': 1.1, 'Q': 1.1}
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz:.,' " + \
-    u'!ÑñáéíóúÁÉÍÓÚ'
+    '!ÑñáéíóúÁÉÍÓÚ'
 
 
 class Page():
@@ -496,7 +496,7 @@ class Page():
     def _button_press_cb(self, win, event):
         ''' Either a card or list entry was pressed. '''
         win.grab_focus()
-        x, y = map(int, event.get_coords())
+        x, y = list(map(int, event.get_coords()))
 
         if self._looking_at_word_list:
             self._goto_page = int(y * 1.0 / self._lead)
@@ -520,7 +520,7 @@ class Page():
                 self.page = self._goto_page
                 self.new_page()
         else:
-            x, y = map(int, event.get_coords())
+            x, y = list(map(int, event.get_coords()))
             spr = self._sprites.find_sprite((x, y))
             if spr == self._picture:
                 if self.page < len(self._card_data):
