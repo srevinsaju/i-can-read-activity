@@ -47,7 +47,7 @@ def play_audio_from_file(lc, file_path):
         if lc.gplay.bin is not None:
             lc.gplay.bin.destroy()
 
-    lc.gplay = Gplay(lc, lc.tw.canvas.width, lc.tw.canvas.height, 4, 3)
+    lc.gplay = Gplay(lc, lc._width, lc._height, 4, 3)
     lc.gplay.start(file_path)
 
 
@@ -104,7 +104,6 @@ class Gplay():
     UPDATE_INTERVAL = 500
 
     def __init__(self, lc, x, y, w, h):
-        self.running_sugar = lc.tw.running_sugar
         self.player = None
         self.uri = None
         self.playlist = []
@@ -120,8 +119,8 @@ class Gplay():
         self.bin.add(self.videowidget)
         self.bin.set_type_hint(Gdk.WindowTypeHint.NORMAL)
         self.bin.set_decorated(False)
-        if self.running_sugar:
-            self.bin.set_transient_for(lc.tw.activity)
+
+        self.bin.set_transient_for(lc._activity)
 
         self.bin.move(x, y)
         self.bin.resize(w, h)
@@ -159,7 +158,7 @@ class Gplay():
         if not self.player:
             # Lazy init the player so that videowidget is realized
             # and has a valid widget allocation.
-            self.player = GstPlayer(self.videowidget, self.running_sugar)
+            self.player = GstPlayer(self.videowidget)
             self.player.connect('eos', self._player_eos_cb)
             self.player.connect('error', self._player_error_cb)
             self.player.connect('stream-info', self._player_stream_info_cb)
@@ -188,10 +187,9 @@ class GstPlayer(GObject.GObject):
         'eos': (GObject.SIGNAL_RUN_FIRST, None, []),
         'stream-info': (GObject.SIGNAL_RUN_FIRST, None, [object])}
 
-    def __init__(self, videowidget, running_sugar):
+    def __init__(self, videowidget):
         GObject.GObject.__init__(self)
 
-        self.running_sugar = running_sugar
         self.playing = False
         self.error = False
 
