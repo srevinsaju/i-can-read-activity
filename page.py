@@ -135,7 +135,6 @@ class Page():
 
         self.cr.rectangle(0, 0, self._width, int(self._height * 2.75))
         self.cr.fill()
-        # self.invalt(0, 0, self._width, self._height)
         self._my_canvas.set_layer(1)
 
         self._x_pos, self._y_pos = self._margin, 0
@@ -289,7 +288,6 @@ class Page():
                       self._cards[self.page].images[0].get_height() + self._lead
         self.cr.rectangle(0, 0, self._width, int(self._height * 2.75))
         self.cr.fill()
-        # self.invalt(0, 0, self._width, int(self._height * 2.5))
 
         text = self._card_data[self.page][1]
         '''
@@ -355,7 +353,6 @@ class Page():
 
         self.cr.rectangle(0, 0, self._width, int(self._height * 2.75))
         self.cr.fill()
-        # self.invalt(0, 0, self._width, self._height)
         self._my_canvas.set_layer(1)
 
         my_list = self._word_data[self.page].split('/')
@@ -377,7 +374,6 @@ class Page():
         self._clear_all()
         self.cr.rectangle(0, 0, self._width, int(self._height * 2.75))
         self.cr.fill()
-        # self.invalt(0, 0, self._width, self._height)
         self._my_canvas.set_layer(1)
 
         phrase_list = self._test_data.split('/')
@@ -486,7 +482,6 @@ class Page():
         ''' Draw a pixbuf onto the canvas '''
         cr.rectangle(0, 0, int(x), int(y))
         cr.fill()
-        # self.invalt(x, y, bounds.width, bounds.height)
 
     def _increment_xy(self, y):
         ''' Increment the xy postion for drawing the next phrase, with
@@ -617,6 +612,3 @@ def image_file_to_pixbuf(file_path, scale):
     except:
         _logger.debug('failed to load %s', file_path)
         return None
-
-
-

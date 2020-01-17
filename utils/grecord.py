@@ -43,9 +43,6 @@ class Grecord:
         self._can_limit_framerate = False
         self._playing = False
 
-        self._audio_transcode_handler = None
-        self._transcode_id = None
-
         self._pipeline = Gst.Pipeline()
         self._create_audiobin()
 
@@ -162,34 +159,8 @@ filesink name=audioFilesink'
 
         audioBus = self._audioline.get_bus()
         audioBus.add_signal_watch()
-        self._audio_transcode_handler = audioBus.connect(
-            'message::eos', self._onMuxedAudioMessageCb, self._audioline)
-        self._transcode_id = GObject.timeout_add(200, self._transcodeUpdateCb,
-                                                 self._audioline)
         self._audiopos = 0
         self._audioline.set_state(Gst.State.PLAYING)
-
-    def transcoding_complete(self):
-        # The EOS message is sometimes either not sent or not received.
-        # So if the position in the stream is not advancing, assume EOS.
-        _logger.debug('transcoding complete')
-        if self._transcode_id is None:
-            _logger.debug('EOS.... transcoding finished')
-            return True
-        else:
-            position, duration = self._query_position(self._audioline)
-            _logger.debug('position: %s, duration: %s' % (str(position),
-                                                          str(duration)))
-            if position == duration:
-                _logger.debug('We are done, even though we did not see EOS')
-                self._clean_up_transcoding_pipeline(self._audioline)
-                return True
-            elif position == self._audiopos:
-                _logger.debug('No progess, so assume we are done')
-                self._clean_up_transcoding_pipeline(self._audioline)
-                return True
-            self._audiopos = position
-            return False
 
     def blockedCb(self, x, y, z):
         pass
@@ -230,17 +201,11 @@ filesink name=audioFilesink'
         return False
 
     def _clean_up_transcoding_pipeline(self, pipe):
-        GObject.source_remove(self._audio_transcode_handler)
-        self._audio_transcode_handler = None
-        GObject.source_remove(self._transcode_id)
-        self._transcode_id = None
         pipe.set_state(Gst.State.NULL)
         pipe.get_bus().remove_signal_watch()
         pipe.get_bus().disable_sync_message_emission()
 
         wavFilepath = os.path.join(self._activity.datapath, 'output.wav')
-        _logger.debug('skip clean up of output.wav')
-        # os.remove(wavFilepath)
         return
 
     def _bus_message_handler(self, bus, message):

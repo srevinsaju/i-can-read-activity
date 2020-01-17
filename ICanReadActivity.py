@@ -143,15 +143,6 @@ class ICanReadActivity(activity.Activity):
         # FIXME: find some reasonable default situation
         language = 'es'
 
-#        if os.path.exists(os.path.join('~', 'Activities', 'ICanRead.activity')):
-#            self._lessons_path = os.path.join('~', 'Activities',
-#                                              'ICanRead.activity',
-#                                              'lessons', language)
-#        else:
-#            self._lessons_path = os.path.join('.', 'lessons', language)
-#
-#        self._images_path = self._lessons_path.replace('lessons', 'images')
-#        self._sounds_path = self._lessons_path.replace('lessons', 'sounds')
         self.activity_path = activity.get_bundle_path()
 
         self._lessons_path = os.path.join(self.activity_path,
@@ -291,7 +282,6 @@ class ICanReadActivity(activity.Activity):
 
         _separator_factory(toolbox.toolbar, False, True)
         stop_button = StopButton(self)
-        stop_button.props.accelerator = '<Ctrl>q'
         toolbox.toolbar.insert(stop_button, -1)
         stop_button.show()
         lesson_toolbar.show()

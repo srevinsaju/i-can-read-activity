@@ -156,7 +156,7 @@ class Gplay():
             return False
         self.playlist.append('file://' + os.path.abspath(file_path))
         if not self.player:
-            # Lazy init the player so that videowidget is realized
+            # lazy init the player so that videowidget is realized
             # and has a valid widget allocation.
             self.player = GstPlayer(self.videowidget)
             self.player.connect('eos', self._player_eos_cb)
